@@ -4,7 +4,7 @@ namespace RumPunch {
 
     class Ingredient<T> {
         public Cache: boolean
-        constructor(public Key: string, public DependencyParameterKeys: string[], public Bottle: (...args: any[]) => T,
+        constructor(public Key: string, public DependencyParameterKeys: string[], public Flavor: (...args: any[]) => T,
             cache?: boolean) {
             if (cache == null || cache == undefined) {
                 cache = false;
@@ -22,8 +22,8 @@ namespace RumPunch {
            
         }
 
-        public Mix<T>(key: string, dependencyParameterKeys: string[], factory: (...args: any[]) => T, cache?: boolean) {
-            this._dict[key] = new Ingredient<T>(key, dependencyParameterKeys, factory, cache);
+        public Mix<T>(key: string, dependencyParameterKeys: string[], flavor: (...args: any[]) => T, cache?: boolean) {
+            this._dict[key] = new Ingredient<T>(key, dependencyParameterKeys, flavor, cache);
         }
 
         public Pour<T>(key: string): T {
@@ -38,7 +38,7 @@ namespace RumPunch {
 
 
             if (ingredient.DependencyParameterKeys.length == 0) {
-                this._cache[key] = ingredient.Bottle();
+                this._cache[key] = ingredient.Flavor();
                 return this._cache[key];
             }
 
@@ -48,7 +48,7 @@ namespace RumPunch {
                 parameters.push(this.Pour<any>(ingredient.DependencyParameterKeys[x]));
             }
 
-            this._cache[key] = ingredient.Bottle.apply(null, parameters);
+            this._cache[key] = ingredient.Flavor.apply(null, parameters);
             return this._cache[key];
 
 

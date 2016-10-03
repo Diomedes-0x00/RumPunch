@@ -1,10 +1,10 @@
 var RumPunch;
 (function (RumPunch) {
     var Ingredient = (function () {
-        function Ingredient(Key, DependencyParameterKeys, Bottle, cache) {
+        function Ingredient(Key, DependencyParameterKeys, Flavor, cache) {
             this.Key = Key;
             this.DependencyParameterKeys = DependencyParameterKeys;
-            this.Bottle = Bottle;
+            this.Flavor = Flavor;
             if (cache == null || cache == undefined) {
                 cache = false;
             }
@@ -17,8 +17,8 @@ var RumPunch;
             this._dict = {}; //object as dictionary
             this._cache = {}; //object for cached factory objects
         }
-        Shaker.prototype.Mix = function (key, dependencyParameterKeys, factory, cache) {
-            this._dict[key] = new Ingredient(key, dependencyParameterKeys, factory, cache);
+        Shaker.prototype.Mix = function (key, dependencyParameterKeys, flavor, cache) {
+            this._dict[key] = new Ingredient(key, dependencyParameterKeys, flavor, cache);
         };
         Shaker.prototype.Pour = function (key) {
             if (this._dict[key] == null)
@@ -28,14 +28,14 @@ var RumPunch;
                 return this._cache[key];
             }
             if (ingredient.DependencyParameterKeys.length == 0) {
-                this._cache[key] = ingredient.Bottle();
+                this._cache[key] = ingredient.Flavor();
                 return this._cache[key];
             }
             var parameters = [];
             for (var x = 0; x < ingredient.DependencyParameterKeys.length; x++) {
                 parameters.push(this.Pour(ingredient.DependencyParameterKeys[x]));
             }
-            this._cache[key] = ingredient.Bottle.apply(null, parameters);
+            this._cache[key] = ingredient.Flavor.apply(null, parameters);
             return this._cache[key];
         };
         return Shaker;
