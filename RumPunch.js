@@ -1,6 +1,7 @@
 var RumPunch;
 (function (RumPunch) {
     RumPunch.PARENT_VM = "$parentVM";
+    RumPunch.CONTEXT = "$context";
     RumPunch.COMPONENT_TEMPLATE_SUFFIX = "-template";
     RumPunch.COMPONENT_VM_SUFFIX = "-vm";
     var Ingredient = (function () {
@@ -59,6 +60,7 @@ var RumPunch;
             loadViewModel: function (name, viewModelConfig, callback) {
                 callback(function (params, componentInfo) {
                     RumPunch.Instance.Mix(RumPunch.PARENT_VM, [], function () { return ko.dataFor(componentInfo.element); }, false);
+                    RumPunch.Instance.Mix(RumPunch.CONTEXT, [], function () { return ko.contextFor(componentInfo.element); }, false);
                     return RumPunch.Instance.Pour(viewModelConfig);
                 });
             }

@@ -1,5 +1,6 @@
 declare namespace RumPunch {
     const PARENT_VM: string;
+    const CONTEXT: string;
     const COMPONENT_TEMPLATE_SUFFIX: string;
     const COMPONENT_VM_SUFFIX: string;
     class Shaker {
