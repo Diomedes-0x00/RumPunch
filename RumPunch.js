@@ -14,8 +14,8 @@ var RumPunch;
     var Shaker = (function () {
         function Shaker() {
             //default constructor for the shaker injector
-            this._dict = {};
-            this._cache = {};
+            this._dict = {}; //object as dictionary
+            this._cache = {}; //object for cached factory objects
         }
         Shaker.prototype.Mix = function (key, dependencyParameterKeys, factory, cache) {
             this._dict[key] = new Ingredient(key, dependencyParameterKeys, factory, cache);
@@ -45,16 +45,9 @@ var RumPunch;
     function RegisterComponentLoader(ko) {
         var RumPunchComponentLoader = {
             getConfig: function (name, callback) {
-                debugger;
-                //callback({ template: `${name}-template`, viewModel: `${name}-vm` });
                 callback({ template: RumPunch.Instance.Pour(name + "-template"), viewModel: name + "-vm" });
             },
-            //loadTemplate: function (name, templateConfig, callback) {
-            //    debugger;
-            //    callback(Instance.Pour<any>(templateConfig));
-            //},
             loadViewModel: function (name, viewModelConfig, callback) {
-                debugger;
                 callback(function (params, componentInfo) {
                     RumPunch.Instance.Mix('$parentVM', [], function () { return ko.dataFor(componentInfo.element); }, false);
                     return RumPunch.Instance.Pour(viewModelConfig);

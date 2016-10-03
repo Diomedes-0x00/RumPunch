@@ -14,13 +14,12 @@ namespace RumPunch {
 
     export class Shaker {
 
-        _dict: any;  //object as dictionary
-        _cache: any; //object for cached factory objects
+        private _dict: any = {};  //object as dictionary
+        private _cache: any = {}; //object for cached factory objects
 
         constructor() {
             //default constructor for the shaker injector
-            this._dict = {};
-            this._cache = {};
+           
         }
 
         public Mix<T>(key: string, dependencyParameterKeys: string[], factory: (...args: any[]) => T, cache?: boolean) {
@@ -62,24 +61,13 @@ namespace RumPunch {
     export function RegisterComponentLoader(ko: any) {
         var RumPunchComponentLoader = {
             getConfig: function (name, callback) {
-                debugger;
-                //callback({ template: `${name}-template`, viewModel: `${name}-vm` });
                 callback({ template: Instance.Pour<any>(`${name}-template`), viewModel: `${name}-vm` });
             },
-            //loadTemplate: function (name, templateConfig, callback) {
-            //    debugger;
-
-            //    callback(Instance.Pour<any>(templateConfig));
-            //},
             loadViewModel: function (name, viewModelConfig, callback) {
-                debugger;
-
                 callback((params: any, componentInfo: any) => {
                     Instance.Mix('$parentVM', [], () => { return (<any>ko).dataFor(componentInfo.element); }, false);
                     return Instance.Pour<any>(viewModelConfig);
                 });
-
-                
             }
         };
         ko.components.loaders.unshift(RumPunchComponentLoader);
