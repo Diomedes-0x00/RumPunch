@@ -1,4 +1,7 @@
 declare namespace RumPunch {
+    const PRIVATE_VM: string;
+    const COMPONENT_TEMPLATE_SUFFIX: string;
+    const COMPONENT_VM_SUFFIX: string;
     class Shaker {
         private _dict;
         private _cache;

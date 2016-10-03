@@ -1,8 +1,8 @@
 var RumPunch;
 (function (RumPunch) {
-    var PRIVATE_VM = "$privateVM";
-    var COMPONENT_TEMPLATE_SUFFIX = "-template";
-    var COMPONENT_VM_SUFFIX = "-vm";
+    RumPunch.PRIVATE_VM = "$privateVM";
+    RumPunch.COMPONENT_TEMPLATE_SUFFIX = "-template";
+    RumPunch.COMPONENT_VM_SUFFIX = "-vm";
     var Ingredient = (function () {
         function Ingredient(Key, DependencyParameterKeys, Flavor, cache) {
             this.Key = Key;
@@ -52,13 +52,13 @@ var RumPunch;
         var RumPunchComponentLoader = {
             getConfig: function (name, callback) {
                 callback({
-                    template: RumPunch.Instance.Pour("" + name + COMPONENT_TEMPLATE_SUFFIX),
-                    viewModel: "" + name + COMPONENT_VM_SUFFIX
+                    template: RumPunch.Instance.Pour("" + name + RumPunch.COMPONENT_TEMPLATE_SUFFIX),
+                    viewModel: "" + name + RumPunch.COMPONENT_VM_SUFFIX
                 });
             },
             loadViewModel: function (name, viewModelConfig, callback) {
                 callback(function (params, componentInfo) {
-                    RumPunch.Instance.Mix(PRIVATE_VM, [], function () { return ko.dataFor(componentInfo.element); }, false);
+                    RumPunch.Instance.Mix(RumPunch.PRIVATE_VM, [], function () { return ko.dataFor(componentInfo.element); }, false);
                     return RumPunch.Instance.Pour(viewModelConfig);
                 });
             }

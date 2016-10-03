@@ -1,9 +1,9 @@
 ﻿
 
 namespace RumPunch {
-    const PRIVATE_VM:string = "$privateVM";
-    const COMPONENT_TEMPLATE_SUFFIX = "-template";
-    const COMPONENT_VM_SUFFIX = "-vm";
+    export const PRIVATE_VM:string = "$privateVM";
+    export const COMPONENT_TEMPLATE_SUFFIX = "-template";
+    export const COMPONENT_VM_SUFFIX = "-vm";
 
     class Ingredient<T> {
         public Cache: boolean
