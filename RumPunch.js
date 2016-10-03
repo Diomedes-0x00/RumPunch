@@ -1,5 +1,8 @@
 var RumPunch;
 (function (RumPunch) {
+    var PRIVATE_VM = "$privateVM";
+    var COMPONENT_TEMPLATE_SUFFIX = "-template";
+    var COMPONENT_VM_SUFFIX = "-vm";
     var Ingredient = (function () {
         function Ingredient(Key, DependencyParameterKeys, Flavor, cache) {
             this.Key = Key;
@@ -17,6 +20,9 @@ var RumPunch;
             this._dict = {}; //object as dictionary
             this._cache = {}; //object for cached factory objects
         }
+        Shaker.prototype.Contains = function (key) {
+            return this._dict[key] != null;
+        };
         Shaker.prototype.Mix = function (key, dependencyParameterKeys, flavor, cache) {
             this._dict[key] = new Ingredient(key, dependencyParameterKeys, flavor, cache);
         };
@@ -45,11 +51,14 @@ var RumPunch;
     function RegisterComponentLoader(ko) {
         var RumPunchComponentLoader = {
             getConfig: function (name, callback) {
-                callback({ template: RumPunch.Instance.Pour(name + "-template"), viewModel: name + "-vm" });
+                callback({
+                    template: RumPunch.Instance.Pour("" + name + COMPONENT_TEMPLATE_SUFFIX),
+                    viewModel: "" + name + COMPONENT_VM_SUFFIX
+                });
             },
             loadViewModel: function (name, viewModelConfig, callback) {
                 callback(function (params, componentInfo) {
-                    RumPunch.Instance.Mix('$parentVM', [], function () { return ko.dataFor(componentInfo.element); }, false);
+                    RumPunch.Instance.Mix(PRIVATE_VM, [], function () { return ko.dataFor(componentInfo.element); }, false);
                     return RumPunch.Instance.Pour(viewModelConfig);
                 });
             }

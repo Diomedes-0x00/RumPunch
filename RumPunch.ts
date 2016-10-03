@@ -1,6 +1,9 @@
 ﻿
 
 namespace RumPunch {
+    const PRIVATE_VM:string = "$privateVM";
+    const COMPONENT_TEMPLATE_SUFFIX = "-template";
+    const COMPONENT_VM_SUFFIX = "-vm";
 
     class Ingredient<T> {
         public Cache: boolean
@@ -20,6 +23,10 @@ namespace RumPunch {
         constructor() {
             //default constructor for the shaker injector
            
+        }
+        
+        public Contains(key: string) : boolean{
+            return this._dict[key] != null;
         }
 
         public Mix<T>(key: string, dependencyParameterKeys: string[], flavor: (...args: any[]) => T, cache?: boolean) {
@@ -61,11 +68,14 @@ namespace RumPunch {
     export function RegisterComponentLoader(ko: any) {
         var RumPunchComponentLoader = {
             getConfig: function (name, callback) {
-                callback({ template: Instance.Pour<any>(`${name}-template`), viewModel: `${name}-vm` });
+                callback({
+                    template: Instance.Pour<any>(`${name}${COMPONENT_TEMPLATE_SUFFIX}`),
+                    viewModel: `${name}${COMPONENT_VM_SUFFIX}`
+                });
             },
             loadViewModel: function (name, viewModelConfig, callback) {
                 callback((params: any, componentInfo: any) => {
-                    Instance.Mix('$parentVM', [], () => { return (<any>ko).dataFor(componentInfo.element); }, false);
+                    Instance.Mix(PRIVATE_VM, [], () => { return (<any>ko).dataFor(componentInfo.element); }, false);
                     return Instance.Pour<any>(viewModelConfig);
                 });
             }
