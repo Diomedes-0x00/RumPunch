@@ -1,5 +1,5 @@
 declare namespace RumPunch {
-    const PRIVATE_VM: string;
+    const PARENT_VM: string;
     const COMPONENT_TEMPLATE_SUFFIX: string;
     const COMPONENT_VM_SUFFIX: string;
     class Shaker {

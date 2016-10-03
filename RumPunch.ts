@@ -1,7 +1,7 @@
 ﻿
 
 namespace RumPunch {
-    export const PRIVATE_VM:string = "$privateVM";
+    export const PARENT_VM:string = "$parentVM";
     export const COMPONENT_TEMPLATE_SUFFIX = "-template";
     export const COMPONENT_VM_SUFFIX = "-vm";
 
@@ -75,7 +75,7 @@ namespace RumPunch {
             },
             loadViewModel: function (name, viewModelConfig, callback) {
                 callback((params: any, componentInfo: any) => {
-                    Instance.Mix(PRIVATE_VM, [], () => { return (<any>ko).dataFor(componentInfo.element); }, false);
+                    Instance.Mix(PARENT_VM, [], () => { return (<any>ko).dataFor(componentInfo.element); }, false);
                     return Instance.Pour<any>(viewModelConfig);
                 });
             }

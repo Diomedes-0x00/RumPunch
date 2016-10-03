@@ -1,6 +1,6 @@
 var RumPunch;
 (function (RumPunch) {
-    RumPunch.PRIVATE_VM = "$privateVM";
+    RumPunch.PARENT_VM = "$parentVM";
     RumPunch.COMPONENT_TEMPLATE_SUFFIX = "-template";
     RumPunch.COMPONENT_VM_SUFFIX = "-vm";
     var Ingredient = (function () {
@@ -58,7 +58,7 @@ var RumPunch;
             },
             loadViewModel: function (name, viewModelConfig, callback) {
                 callback(function (params, componentInfo) {
-                    RumPunch.Instance.Mix(RumPunch.PRIVATE_VM, [], function () { return ko.dataFor(componentInfo.element); }, false);
+                    RumPunch.Instance.Mix(RumPunch.PARENT_VM, [], function () { return ko.dataFor(componentInfo.element); }, false);
                     return RumPunch.Instance.Pour(viewModelConfig);
                 });
             }
